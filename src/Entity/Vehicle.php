@@ -196,9 +196,11 @@ class Vehicle
             'dateAdded' => $this->getDateAdded(),
             'type' => $this->getType(),
             'make' => $this->getMake(),
+            'msrp' => $this->getMsrp(),
             'model' => $this->getModel(),
             'miles' => $this->getMiles(),
             'vin' => $this->getVin(),
+            'deleted' => $this->getDeleted(),
         ];
     }
 

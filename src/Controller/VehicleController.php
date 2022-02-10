@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use App\Repository\VehicleRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,11 +44,12 @@ class VehicleController extends AbstractController
         $sort = $request->query->get('sort');
 
         // check for valid column for sort
-        if(in_array($sort, $this->columns)) {
-            $sort = 'v.'.$sort;
-            return new JsonResponse(['message' => $sort.' is not a valid column'], 400);
-        }else {
-            $sort = 'v.id';
+        if($sort != null) {
+            if(!in_array($sort, $this->columns)) {
+                return new JsonResponse(['message' => 'Invalid sort type.'], 400);
+            }
+        }else{
+            $sort = 'id';
         }
 
         //check for valid columns for search
@@ -56,7 +58,7 @@ class VehicleController extends AbstractController
             $search = $_GET['search'];
             foreach($search as $key=>$value) {
                 if(!in_array($key, $this->columns)) {
-                    return new JsonResponse(['message' => $key.' is not a valid column'], 400);
+                    return new JsonResponse(['message' => 'Invalid Search Type'], 400);
                 }
             }
         }
@@ -73,7 +75,6 @@ class VehicleController extends AbstractController
         return new JsonResponse($arrayCollection);
     }
 
-
     /**
      * Route for getting data of single vehicle
      *
@@ -81,7 +82,7 @@ class VehicleController extends AbstractController
      */
     public function show(ManagerRegistry $doctrine, int $id): Response
     {
-        $vehicle = $doctrine->getRepository(Vehicle::class)->find($id);
+        $vehicle = $this->vehicleRepository->find($id);
 
         if (!$vehicle) {
             throw $this->createNotFoundException(
@@ -100,6 +101,8 @@ class VehicleController extends AbstractController
     public function create(Request $request, ManagerRegistry $doctrine,ValidatorInterface $validator): Response
     {
         $data = json_decode($request->getContent(), true);
+        $entityManager = $doctrine->getManager();
+
         $vehicle = new Vehicle();
 
         $vehicle->setDateAdded(\DateTime::createFromFormat('Y-m-d H:i:s', $data['dateAdded']));
@@ -111,8 +114,6 @@ class VehicleController extends AbstractController
         $vehicle->setMiles($data['miles'] ?? 0);
         $vehicle->setVin($data['vin'] ?? "");
         $vehicle->setDeleted($data['deleted'] ?? false);
-
-        $entityManager = $doctrine->getManager();
 
         $errors = $validator->validate($vehicle);
         if (count($errors) > 0) {
@@ -133,10 +134,12 @@ class VehicleController extends AbstractController
      *
      * @Route("/vehicle/{id}", name="vehicle_update", methods={"PATCH"})
      */
-    public function update(Request $request, ManagerRegistry $doctrine,ValidatorInterface $validator, int $id): JsonResponse
+    public function update(Request $request, ManagerRegistry $doctrine, ValidatorInterface $validator, int $id): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
         $entityManager = $doctrine->getManager();
-        $vehicle = $this->vehicleRepository->find($id);
+
+        $vehicle = $doctrine->getRepository(Vehicle::class)->find($id);
 
         if (!$vehicle) {
             throw $this->createNotFoundException(
@@ -144,27 +147,22 @@ class VehicleController extends AbstractController
             );
         }
 
-        $data = $request->getContent();
-        isset($data['dateAdded']) ?? $vehicle->setDateAdded(\DateTime::createFromFormat('Y-m-d H:i:s', $data['dateAdded']));
-        
-        isset($data['type']) ?? $vehicle->setType($data['type']);
-        isset($data['msrp']) ?? $vehicle->setType($data['msrp']);
-        isset($data['year']) ?? $vehicle->setType($data['year']);
-        isset($data['make']) ?? $vehicle->setType($data['make']);
-        isset($data['model']) ?? $vehicle->setType($data['model']);
-        isset($data['miles']) ?? $vehicle->setType($data['miles']);
-        isset($data['vin']) ?? $vehicle->setType($data['vin']);
-        isset($data['deleted']) ?? $vehicle->setType($data['deleted']);
+        isset($data['dateAdded']) && $vehicle->setDateAdded(\DateTime::createFromFormat('Y-m-d H:i:s', $data['dateAdded']));
+        isset($data['msrp']) && $vehicle->setMsrp($data['msrp']);
+        isset($data['year']) && $vehicle->setYear($data['year']);
+        isset($data['make']) && $vehicle->setMake($data['make']);
+        isset($data['model']) && $vehicle->setModel($data['model']);
+        isset($data['miles']) && $vehicle->setMiles($data['miles']);
+        isset($data['vin']) && $vehicle->setVin($data['vin']);
+        isset($data['deleted']) && $vehicle->setDeleted($data['deleted']);
 
         $errors = $validator->validate($vehicle);
         if (count($errors) > 0) {
             return new JsonResponse((string) $errors, 400);
         }
 
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($vehicle);
 
-        // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
 
         return new JsonResponse($vehicle->toArray(), 200);
@@ -196,13 +194,13 @@ class VehicleController extends AbstractController
     /**
      * @Route("/vehicles/{page}", name="vehicle_list", methods={"GET"}, requirements={"page"="\d+"})
      */
-    public function getSinglePageVehicles($query, $page): array
+    public function getSinglePageVehicles($query, $page): Paginator
     {
         //set page size
         $pageSize = '10';
 
         // load doctrine Paginator
-        $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+        $paginator = new Paginator($query);
 
         // you can get total items
         $totalItems = count($paginator);
@@ -216,11 +214,6 @@ class VehicleController extends AbstractController
             ->setFirstResult($pageSize * ($page-1)) // set the offset
             ->setMaxResults($pageSize); // set the limit
 
-        $vehicles = [];
-        foreach ($paginator as $pageItem) {
-            $vehicles[] = $pageItem;
-        }
-
-        return $vehicles;
+        return $paginator;
     }
 }

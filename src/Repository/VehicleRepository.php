@@ -20,28 +20,11 @@ class VehicleRepository extends ServiceEntityRepository
         parent::__construct($registry, Vehicle::class);
     }
 
-    // /**
-    //  * @return Vehicle[] Returns an array of Vehicle objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
     /**
      * @param $type
      * @return Query
      */
-    public function findAllNotDeleted($type, $sort='v.id', $search = []): Query
+    public function findAllNotDeleted($type, $sort='id', $search = []): Query
     {
         $queryBuilder =  $this->createQueryBuilder('v')
             ->andWhere('v.deleted = :val')
@@ -56,19 +39,14 @@ class VehicleRepository extends ServiceEntityRepository
             }
         }
 
-        return $queryBuilder->orderBy($sort, 'ASC')->getQuery();
+        return $queryBuilder->orderBy('v.'.$sort, 'ASC')->getQuery();
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Vehicle
+    function getOrFail(int $id)
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $vehicle = $this->find($id);
+        if (!$vehicle) {
+            throw RecordNotFoundException('No vehicle found for id '.$id);
+        }
     }
-    */
 }
