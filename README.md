@@ -39,6 +39,7 @@ URL:```http://127.0.0.1:8001/vehicles/1```
 Create a vehicle entry in the database.
 URL: ```http://127.0.0.1:8001/vehicle```
 Request Body:
+```
 {
     "dateAdded":"2022-01-01 12:01:15",
     "type":"used",
@@ -49,6 +50,7 @@ Request Body:
     "miles":"153000",
     "vin":"484848848848493"
 }
+```
 
 ##4. Method = PATCH, route= ```/vehicle/{id}```
 Update a vehicle entry in the database.
