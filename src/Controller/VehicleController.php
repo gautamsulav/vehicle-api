@@ -121,10 +121,7 @@ class VehicleController extends AbstractController
             return new JsonResponse((string) $errors, 400);
         }
 
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($vehicle);
-
-        // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
 
         return new JsonResponse('Saved new vehicle with id '.$vehicle->getId(), 200);
