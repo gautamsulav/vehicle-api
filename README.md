@@ -1,4 +1,5 @@
-# Select Master branch
+# Instructions
+
 Clone the Repo and checkout the master branch.
 Create a .env file and copy the content of .env.example file. Select database congif .env file.
 There a parameter VEHICLE_TYPE in the .env file. Based on the that value the GET index request filters the vehicle from the databse.
