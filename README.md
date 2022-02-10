@@ -32,13 +32,12 @@ Sample: URLs
 ##2. Method = GET, route= ```/vehicles/{id}```
 Returns the vehicle information based on the id. Vehicle type and deleted column is not considered while fetching from database 
 
-URL:
-http://127.0.0.1:8001/vehicles/1
+URL:```http://127.0.0.1:8001/vehicles/1```
 
 
 ##3. Method = POST, route= ```/vehicle```
 Create a vehicle entry in the database.
-URL:http://127.0.0.1:8001/vehicle
+URL:```http://127.0.0.1:8001/vehicle```
 Request Body:
 ```{
     "dateAdded":"2022-01-01 12:01:15",
