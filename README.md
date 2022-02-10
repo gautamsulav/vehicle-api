@@ -1,13 +1,18 @@
 # Select Master branch
-Clone the Repo.
-Change the database config in the .env file
+Clone the Repo and checkout the master branch.
+Create a .env file and copy the content of .env.example file. Select database congif .env file.
+There a parameter VEHICLE_TYPE in the .env file. Based on the that value the GET index request filters the vehicle from the databse.
+Default value is set to used.
+
+
+
 In the directory run the following commands
-1. composer update
-2. php bin/console doctrine:database:create
-3. php bin/console make:migration
-4. php bin/console doctrine:migrations:migrate
-5. php bin/console doctrine:fixtures:load
-6. symfony server:start
+1. ```composer update```
+2. ```php bin/console doctrine:database:create```
+3. ```php bin/console make:migration```
+4. ```php bin/console doctrine:migrations:migrate```
+5. ```php bin/console doctrine:fixtures:load```
+6. ```symfony server:start```
 The server should start at http://127.0.0.1:8000
 
 
@@ -32,7 +37,7 @@ http://127.0.0.1:8001/vehicles/1
 Create a vehicle entry in the database.
 URL:http://127.0.0.1:8001/vehicle
 Request Body:
-{
+```{
     "dateAdded":"2022-01-01 12:01:15",
     "type":"used",
     "msrp":"1",
@@ -41,13 +46,13 @@ Request Body:
     "model":"Corolla",
     "miles":"153000",
     "vin":"484848848848493"
-}
+}```
 
 ##4. Method = PATCH, route=/vehicle/{id}
 Update a vehicle entry in the database.
 URL:http://127.0.0.1:8001/vehicle/1
 Request Body:
-{
+```{
     "dateAdded":"2022-01-01 12:01:15",
     "type":"used",
     "msrp":"1",
@@ -56,7 +61,7 @@ Request Body:
     "model":"Corolla",
     "miles":"153000",
     "vin":"484848848848493"
-}
+}```
 
 ##4. Method = DELETE, route=/vehicle/{id}
 Delete a vehicle entry in the database. This url only does soft delete and updates deleted column in the database.
