@@ -145,16 +145,16 @@ class VehicleController extends AbstractController
         }
 
         $data = $request->getContent();
-        $vehicle->setDateAdded(\DateTime::createFromFormat('Y-m-d H:i:s', $data['dateAdded']));
-
-        $vehicle->setType($data['type'] ?? $vehicle->getType());
-        $vehicle->setMsrp($data['msrp'] ?? $vehicle->getMsrp());
-        $vehicle->setYear($data['year'] ?? $vehicle->getYear());
-        $vehicle->setMake($data['make'] ?? $vehicle->getMake());
-        $vehicle->setModel($data['model'] ?? $vehicle->getModel());
-        $vehicle->setMiles($data['miles'] ?? $vehicle->getMiles());
-        $vehicle->setVin($data['vin'] ?? $vehicle->getVin());
-        $vehicle->setDeleted($data['deleted'] ?? false);
+        isset($data['dateAdded']) ?? $vehicle->setDateAdded(\DateTime::createFromFormat('Y-m-d H:i:s', $data['dateAdded']));
+        
+        isset($data['type']) ?? $vehicle->setType($data['type']);
+        isset($data['msrp']) ?? $vehicle->setType($data['msrp']);
+        isset($data['year']) ?? $vehicle->setType($data['year']);
+        isset($data['make']) ?? $vehicle->setType($data['make']);
+        isset($data['model']) ?? $vehicle->setType($data['model']);
+        isset($data['miles']) ?? $vehicle->setType($data['miles']);
+        isset($data['vin']) ?? $vehicle->setType($data['vin']);
+        isset($data['deleted']) ?? $vehicle->setType($data['deleted']);
 
         $errors = $validator->validate($vehicle);
         if (count($errors) > 0) {
