@@ -69,7 +69,7 @@ Request Body:
 }
 ```
 
-##4. Method = DELETE, route= ```/vehicle/{id}```<br/>
+##5. Method = DELETE, route= ```/vehicle/{id}```<br/>
 Delete a vehicle entry in the database. This url only does soft delete and updates deleted column in the database.<br/>
 URL:```http://127.0.0.1:8001/vehicle/1```<br/>
 
