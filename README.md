@@ -1,13 +1,13 @@
 # Instructions
 
-Clone the Repo and checkout the master branch.
-Create a ```.env``` file and copy the content of ```.env.example``` file. Select database congif ```.env``` file.
-There a parameter VEHICLE_TYPE in the ```.env``` file. Based on the that value the GET index request filters the vehicle from the databse.
-Default value is set to used.
+Clone the Repo and checkout the master branch.<br/>
+Create a ```.env``` file and copy the content of ```.env.example``` file. Select database congif ```.env``` file.<br/>
+There a parameter VEHICLE_TYPE in the ```.env``` file. Based on the that value the GET index request filters the vehicle from the databse.<br/>
+Default value is set to used.<br/>
 
 
 
-In the directory run the following commands
+In the directory run the following commands<br/>
 1. ```composer update```
 2. ```php bin/console doctrine:database:create```
 3. ```php bin/console make:migration```
@@ -16,7 +16,7 @@ In the directory run the following commands
 6. ```symfony server:start```
 
 
-The server should start at http://127.0.0.1:someport
+The server should start at http://127.0.0.1:someport<br/>
 
 
 #**Following Restful APIs are available**
@@ -52,9 +52,9 @@ Request Body:
 }
 ```
 
-##4. Method = PATCH, route= ```/vehicle/{id}```
-Update a vehicle entry in the database.
-URL:```http://127.0.0.1:8001/vehicle/1```
+##4. Method = PATCH, route= ```/vehicle/{id}```<br/>
+Update a vehicle entry in the database.<br/>
+URL:```http://127.0.0.1:8001/vehicle/1```<br/>
 Request Body:
 ```
 {
@@ -69,9 +69,9 @@ Request Body:
 }
 ```
 
-##4. Method = DELETE, route= ```/vehicle/{id}```
-Delete a vehicle entry in the database. This url only does soft delete and updates deleted column in the database.
-URL:```http://127.0.0.1:8001/vehicle/1```
+##4. Method = DELETE, route= ```/vehicle/{id}```<br/>
+Delete a vehicle entry in the database. This url only does soft delete and updates deleted column in the database.<br/>
+URL:```http://127.0.0.1:8001/vehicle/1```<br/>
 
 
-Swagger API is implemented and can be accessed using following route: http://127.0.0.1:8000/api
+Swagger API is implemented and can be accessed using following route: http://127.0.0.1:8000/api<br/>
