@@ -56,6 +56,7 @@ Request Body:
 Update a vehicle entry in the database.
 URL:```http://127.0.0.1:8001/vehicle/1```
 Request Body:
+```
 {
     "dateAdded":"2022-01-01 12:01:15",
     "type":"used",
@@ -66,6 +67,7 @@ Request Body:
     "miles":"153000",
     "vin":"484848848848493"
 }
+```
 
 ##4. Method = DELETE, route= ```/vehicle/{id}```
 Delete a vehicle entry in the database. This url only does soft delete and updates deleted column in the database.
