@@ -25,9 +25,9 @@ The server should start at http://127.0.0.1:someport
 List all the vehicles that are not deleted and vehicle type based on the evironment variable;
 Pagination, Sorting and Filtering is accomplished using query parameters as shown in the example requests below.
 Sample: URLs
-http://127.0.0.1:8001/vehicles
-http://127.0.0.1:8001/vehicles?page=1&&sort=make
-http://127.0.0.1:8001/vehicles?page=1&&search[make]=Toyota
+```http://127.0.0.1:8001/vehicles```
+```http://127.0.0.1:8001/vehicles?page=1&&sort=make```
+```http://127.0.0.1:8001/vehicles?page=1&&search[make]=Toyota```
 
 ##2. Method = GET, route= ```/vehicles/{id}```
 Returns the vehicle information based on the id. Vehicle type and deleted column is not considered while fetching from database 
