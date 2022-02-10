@@ -1,9 +1,9 @@
 # Instructions
 
 Clone the Repo and checkout the `master` branch.<br/>
-Create a `.env` file and copy the content of `.env.example` file. Select database congif `.env` file.<br/>
-There a parameter VEHICLE_TYPE in the `.env` file. Based on the that value the GET index request filters the vehicle from the databse.<br/>
-Default value is set to used.<br/>
+Create a `.env` file and copy the content of `.env.example` file. Update database congif in `.env` file.<br/>
+There is a parameter VEHICLE_TYPE in the `.env` file. Based on the that value the GET index request filters the vehicle from the databse.<br/>
+Default value is set to used. It can only have ```new|used``` value <br/>
 
 In the directory run the following commands<br/>
 
