@@ -35,6 +35,10 @@ class VehicleController extends AbstractController
      */
     public function index(Request $request): JsonResponse
     {
+        if(!in_array($this->vehicleType,["used", "new"])) {
+            return new JsonResponse(['message' => 'Please fix the environment variable'], 400);
+        }
+
         $page = $request->query->get('page') ?? 1;
         $sort = $request->query->get('sort');
 
