@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class VehicleController extends AbstractController
@@ -72,7 +73,7 @@ class VehicleController extends AbstractController
             $arrayCollection[] = $vehicle->toArray();
         }
 
-        return new JsonResponse($arrayCollection);
+        return new JsonResponse($arrayCollection,200);
     }
 
     /**
@@ -98,7 +99,7 @@ class VehicleController extends AbstractController
      *
      * @Route("/vehicle", name="vehicle_create", methods={"POST"})
      */
-    public function create(Request $request, ManagerRegistry $doctrine,ValidatorInterface $validator): Response
+    public function create(Request $request, ManagerRegistry $doctrine,ValidatorInterface $validator): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $entityManager = $doctrine->getManager();
@@ -117,7 +118,7 @@ class VehicleController extends AbstractController
 
         $errors = $validator->validate($vehicle);
         if (count($errors) > 0) {
-            return new Response((string) $errors, 400);
+            return new JsonResponse((string) $errors, 400);
         }
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
@@ -126,7 +127,7 @@ class VehicleController extends AbstractController
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
 
-        return new Response('Saved new product with id '.$vehicle->getId());
+        return new JsonResponse('Saved new vehicle with id '.$vehicle->getId(), 200);
     }
 
     /**
