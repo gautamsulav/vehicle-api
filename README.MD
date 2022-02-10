@@ -26,10 +26,10 @@ Sample: URLs
 `http://127.0.0.1:8001/vehicles?page=1&&sort=make`
 `http://127.0.0.1:8001/vehicles?page=1&&search[make]=Toyota`
 
-##2. Method = GET, route= `/vehicles/{id}`
+##2. Method = GET, route= `/vehicle/{id}`
 Returns the vehicle information based on the id. Vehicle type and deleted column is not considered while fetching from database
 
-URL:`http://127.0.0.1:8001/vehicles/1`
+URL:`http://127.0.0.1:8001/vehicle/1`
 
 ##3. Method = POST, route= `/vehicle`
 Create a vehicle entry in the database.
